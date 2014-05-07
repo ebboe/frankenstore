@@ -13,61 +13,8 @@
     </head>
     <body>
         <h1>Frankenstore</h1>
-        
-        <%
-            if (request.getParameterMap().containsKey("iaintgotnoaccount") && !request.getParameter("iaintgotnoaccount").isEmpty()) {
-        %>
-
-        <h2>New account</h2>
-        Enter new account details below:
-        
-        <form method="POST" action="">
-            <table>
-                <tr>
-                    <td align="right">
-                        Username:
-                    </td>
-                    <td>
-                        <input type="text">
-                    </td>
-                    <td>
-                        <input type="submit" value="Create account!">
-                    </td>
-                </tr>
-            </table>
-        </form>
-        
-                
-        <%
-            }
-            else {
-        %>
-        
-        <h2>Login</h2>
-        
-        <form method="POST" action="">
-            <table>
-                <tr>
-                    <td align="right">
-                        Username:
-                    </td>
-                    <td>
-                        <input type="text">
-                    </td>
-                    <td>
-                        <input type="submit" value="Go shop!">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <a href="?iaintgotnoaccount=1">I ain't got no account!</a>
-                    </td>
-                </tr>
-            </table>
-        </form>
-        
-        <%
-            }
-        %>
+        <jsp:useBean id="User" class="beans.ProfileBean" scope="request">
+            Error, the bean should have been created in the servlet!
+        </jsp:useBean>
     </body>
 </html>

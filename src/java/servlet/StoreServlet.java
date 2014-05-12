@@ -73,6 +73,7 @@ public class StoreServlet extends HttpServlet {
             }
             sess.setAttribute("profile", user);
             
+            
             response.sendRedirect(createUserPage);
             
         } else if (request.getParameter("action").equals("create_user")) {

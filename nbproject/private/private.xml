@@ -5,9 +5,10 @@
         <group>
             <file>file:/Users/Ebbe/NetBeansProjects/frankenstore/src/java/servlet/StoreServlet.java</file>
             <file>file:/Users/Ebbe/NetBeansProjects/frankenstore/web/index.jsp</file>
-            <file>file:/Users/Ebbe/NetBeansProjects/frankenstore/src/java/beans/FrankenBean.java</file>
-            <file>file:/Users/Ebbe/NetBeansProjects/frankenstore/src/java/beans/ProfileBean.java</file>
-            <file>file:/Users/Ebbe/NetBeansProjects/frankenstore/src/java/beans/ShoppingCartBean.java</file>
+            <file>file:/Users/Ebbe/NetBeansProjects/frankenstore/web/frankenlist.jsp</file>
+            <file>file:/Users/Ebbe/NetBeansProjects/frankenstore/web/login.jsp</file>
+            <file>file:/Users/Ebbe/NetBeansProjects/frankenstore/web/create_user.jsp</file>
+            <file>file:/Users/Ebbe/NetBeansProjects/frankenstore/web/WEB-INF/web.xml</file>
         </group>
     </open-files>
 </project-private>

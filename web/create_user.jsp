@@ -13,6 +13,6 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        Luke, I am your <strong>${ profile.getUsername() }</strong>.
+        Luke, I am your <strong>${ profile.getUsername() }</strong> (ID: ${ profile.getId() }).
     </body>
 </html>

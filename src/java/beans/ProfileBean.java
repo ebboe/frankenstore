@@ -113,15 +113,14 @@ public final class ProfileBean {
     }
     
     public String getUsername() {
-        return names.get(0); //username;
+        return username;
     }
     
     public void setUsername(String _username) {
         username = _username;
     }
-    /*
+
     public int getId() {
-        return id;
+        return identifier;
     }
-    */
 }

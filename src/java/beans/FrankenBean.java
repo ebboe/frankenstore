@@ -112,14 +112,14 @@ public class FrankenBean {
             while (iter.hasNext()) {
                 objBuff = (Object[]) iter.next();
 
-                out.append("<bodypart>");
+                out.append("<part>");
                     out.append(((BodyPartBean) objBuff[0]).getXml());
 
                     out.append("<quantity>");
                         out.append(((Integer) objBuff[1]).intValue());
                     out.append("</quantity>");
 
-                out.append("</bodypart>");
+                out.append("</part>");
             }
 
             out.append("</bodyparts>");

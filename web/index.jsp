@@ -14,7 +14,8 @@
     <body>
         <h1>Frankenstore</h1>
         <jsp:useBean id="User" class="beans.ProfileBean" scope="request">
-            Error, the bean should have been created in the servlet!
+            <jsp:setProperty name="currentuser" property="username" value="Test"/>
         </jsp:useBean>
+        <p>Luke, I am your <jsp:getProperty name="currentuser" property="username"/></p>
     </body>
 </html>

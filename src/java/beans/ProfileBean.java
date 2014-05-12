@@ -12,19 +12,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Ebbe
  */
-public class ProfileBean {
+public final class ProfileBean {
     
     private String url;
     private String username;
     private ArrayList<String> names;
     
-    public ProfileBean (String _url) {
-        url = _url;
+    public ProfileBean (/*String _url*/) {
+        //url = _url;
+        //url = "jdbc:mysql://localhost/frankenstore?user=pvark&password=pvark";
+        try {
+            this.getUsers();
+        } catch (Exception ex) {
+            Logger.getLogger(ProfileBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void getUsers() throws Exception {
@@ -33,13 +41,12 @@ public class ProfileBean {
         ResultSet rs=null;
  
         try{
-            
-            Class.forName("com.mysql.jdbc.Driver");
-            conn=DriverManager.getConnection(url);
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/frankenstore?user=pvark&password=pvark");
             
             stmt = conn.createStatement();
             String sql;
-            sql ="SELECT * from CUSTOMERS";
+            sql ="SELECT * from CUSTOMERS where CUSTOMER_ID = 1";
             rs= stmt.executeQuery(sql);
 
 	    // analyze the result set
@@ -69,10 +76,15 @@ public class ProfileBean {
     }
     
     public String getUsername() {
-        return username;
+        return names.get(0); //username;
     }
     
+    public void setUsername(String _username) {
+        username = _username;
+    }
+    /*
     public int getId() {
         return id;
     }
+    */
 }

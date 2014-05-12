@@ -19,7 +19,7 @@ public class BodyPartListBean {
     private String url;
     
     public BodyPartListBean() throws Exception {
-        this("jdbc:mysql://localhost/frankenstore?user=root&password=jip9olp9od9Cyop");
+        this("jdbc:mysql://localhost/frankenstore?user=pvark&password=pvark");
     }
     
     public BodyPartListBean(String _url) throws Exception {
@@ -44,7 +44,6 @@ public class BodyPartListBean {
                 
                 partBean.setBodyPartId(rs.getInt("COMPONENT_ID"));
                 partBean.setName(rs.getString("NAME"));
-                partBean.setQuantity(rs.getInt("QUANTITY"));
                 
                 bodyPartList.add(partBean);
             }

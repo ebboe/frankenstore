@@ -13,7 +13,6 @@ package beans;
 public class BodyPartBean {
     private int bodyPartId;
     private String name;
-    private int quantity;
     
     public BodyPartBean() {
     }
@@ -34,14 +33,6 @@ public class BodyPartBean {
         name = partName;
     }
     
-    public int getQuantity() {
-        return quantity;
-    }
-    
-    public void setQuantity(int newQuantity) {
-        quantity = newQuantity;
-    }
-    
     public String getXml() {
         StringBuilder xmlOut = new StringBuilder();
         
@@ -52,9 +43,6 @@ public class BodyPartBean {
             xmlOut.append("<name><![CDATA[");
                 xmlOut.append(name);
             xmlOut.append("]]</name>");
-            xmlOut.append("<quantity>");
-                xmlOut.append(quantity);
-            xmlOut.append("</quantity>");
         xmlOut.append("</bodypart>");
         
         return xmlOut.toString();

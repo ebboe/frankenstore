@@ -44,7 +44,6 @@ public class BodyPartListBean {
                 
                 partBean.setBodyPartId(rs.getInt("COMPONENT_ID"));
                 partBean.setName(rs.getString("NAME"));
-                partBean.setQuantity(rs.getInt("QUANTITY"));
                 
                 bodyPartList.add(partBean);
             }

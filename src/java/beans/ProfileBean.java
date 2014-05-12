@@ -23,15 +23,52 @@ public final class ProfileBean {
     
     private String url;
     private String username;
+    private int identifier;
     private ArrayList<String> names;
     
-    public ProfileBean (/*String _url*/) {
-        //url = _url;
-        //url = "jdbc:mysql://localhost/frankenstore?user=pvark&password=pvark";
+    public ProfileBean (String _url) {
+        url = _url;
+        
         try {
             this.getUsers();
         } catch (Exception ex) {
             Logger.getLogger(ProfileBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void getUser(String userName) throws Exception {
+        Connection conn =null;
+        Statement stmt = null;
+        ResultSet rs=null;
+ 
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            conn=DriverManager.getConnection(url);
+            
+            stmt = conn.createStatement();
+            String sql = "SELECT * from CUSTOMERS WHERE NAME = " + "'" + userName + "'";
+            rs = stmt.executeQuery(sql);
+
+	    // analyze the result set
+	    
+            rs.next();
+            username = rs.getString("NAME");
+            identifier = rs.getInt("CUSTOMER_ID");
+            
+	} catch(SQLException sqle) {
+            throw new Exception(sqle);
+	} finally {
+ 	    try{
+		rs.close();
+            } catch(Exception e) {}
+            
+            try {
+		stmt.close();
+            } catch(Exception e) {}
+            
+            try {
+		conn.close();
+            } catch(Exception e){}
         }
     }
     
@@ -40,7 +77,7 @@ public final class ProfileBean {
         Statement stmt = null;
         ResultSet rs=null;
  
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/frankenstore?user=pvark&password=pvark");
             

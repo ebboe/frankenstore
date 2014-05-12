@@ -9,6 +9,8 @@ import beans.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
@@ -22,7 +24,10 @@ public class StoreServlet extends HttpServlet {
     private static String jdbcURL = null;
     private BodyPartListBean bodyPartList = null;
         
+    @Override
     public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        
         loginPage = config.getInitParameter("LOGIN_USER_PAGE");
         createUserPage = config.getInitParameter("CREATE_USER_PAGE");
         jdbcURL = config.getInitParameter("JDBC_URL");
@@ -56,10 +61,19 @@ public class StoreServlet extends HttpServlet {
         HttpSession sess = request.getSession();
         RequestDispatcher rd = null;
         ShoppingCartBean shoppingBean = getCart(request);
-        sess.setAttribute("currentUser", request.getRemoteUser());
         sess.setAttribute("jdbcURL", jdbcURL);
         
         if (request.getParameter("action").equals("login")) {
+            ProfileBean user = new ProfileBean(jdbcURL);
+            
+            try {
+                user.getUser((String)request.getParameter("username"));
+            } catch (Exception e) {
+                throw new ServletException("Error loading profile", e);
+            }
+            sess.setAttribute("profile", user);
+            
+            response.sendRedirect(createUserPage);
             
         } else if (request.getParameter("action").equals("create_user")) {
             

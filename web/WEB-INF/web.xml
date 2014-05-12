@@ -5,11 +5,11 @@
         <servlet-class>servlet.StoreServlet</servlet-class>
         <init-param>
             <param-name>LOGIN_USER_PAGE</param-name>
-            <param-value>/login.jsp</param-value>
+            <param-value>/frankenstore/login.jsp</param-value>
         </init-param>
         <init-param>
             <param-name>CREATE_USER_PAGE</param-name>
-            <param-value>/create_user.jsp</param-value>
+            <param-value>/frankenstore/create_user.jsp</param-value>
         </init-param>
         <init-param>
             <param-name>JDBC_URL</param-name>

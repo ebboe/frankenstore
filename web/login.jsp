@@ -18,15 +18,15 @@
             arms, eyes, feet, toes, fingers, ears, hairs and last but not least,
             butts.</p>
         <p>Kindly login below, or if you do not have a user you can create one.</p>
-        <form method="POST" action="login">
+        <form method="POST" action="store?action=login">
             <table>
                 <tr>
                     <th align="right">Username:</th>
-                    <td align="left"><input type="password" name="password_field"></td>
+                    <td align="left"><input type="text" name="username"></td>
                     <td><input type="submit" value="Login"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><a href="store?action=create_user">I ain't got no account</a>
+                    <td colspan="2"><a href="store?action=create_use©r">I ain't got no account</a>
                 </tr>
             </table>
         </form>

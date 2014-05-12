@@ -18,6 +18,7 @@
         <jsp:useBean id="frankenList" class="beans.FrankenListBean" scope="application">
             Error, the bean should have been created in the servlet!
         </jsp:useBean>
+        <p Welcome 
             
     <c:set var="frankenlist_xslt">
         <c:import url=""frankenlist_xslt.xsl"/>

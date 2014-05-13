@@ -18,13 +18,11 @@
         <jsp:useBean id="frankenList" class="beans.FrankenListBean" scope="application">
             Error, the bean should have been created in the servlet!
         </jsp:useBean>
-        <p Welcome 
-            
     <c:set var="frankenlist_xslt">
-        <c:import url=""frankenlist_xslt.xsl"/>
+        <c:import url="frankenlist_xslt.xsl"/>
     </c:set>
     
-    <x:transform xslt=""${frankenlist_xslt}">
+    <x:transform xslt="${frankenlist_xslt}">
         <jsp:getProperty name="frankenList" property="xml"/>
     </x:transform>
     </body>

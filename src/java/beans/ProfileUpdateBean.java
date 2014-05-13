@@ -29,7 +29,7 @@ public class ProfileUpdateBean {
         int rsdummy;
         
         try {
-            String sql1, sql2, sql3;
+            String sql;
             Class.forName("com.myql.jdbc.Driver");
             conn = DriverManager.getConnection(url);
             
@@ -37,9 +37,9 @@ public class ProfileUpdateBean {
             conn.setAutoCommit(false);
             
             // the sql query goes here
-            sql1 = "UPDATE CUSTOMERS SET NAME = " + "'" + prb.getName();
-            sql1 += "'" + "WHERE CUSTOMER_ID =" + prb.getCustomerId() + ";";
-            rsdummy = stmt.executeUpdate(sql1);
+            sql = "UPDATE CUSTOMERS SET NAME = " + "'" + prb.getUsername();
+            sql += "'" + " WHERE CUSTOMER_ID = " + prb.getId() + ";";
+            rsdummy = stmt.executeUpdate(sql);
             // user roles?
             conn.commit();
         }
@@ -66,15 +66,15 @@ public class ProfileUpdateBean {
         int rsdummy;
         
         try {
-            String sql1, sql2;
+            String sql;
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url);
             stmt = conn.createStatement();
             
             conn.setAutoCommit(false);
-            sql1 = "INSERT INTO CONSUMERS (NAME) VALUES ( ";
-            sql1 += "'" + prb.getName() + "';";
-            rsdummy = stmt.executeUpdate(sql1);
+            sql = "INSERT INTO CONSUMERS (NAME) VALUES ( ";
+            sql += "'" + prb.getUsername() + "';";
+            rsdummy = stmt.executeUpdate(sql);
             //user role stuff
             conn.commit();
         }

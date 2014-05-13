@@ -54,11 +54,11 @@ Example:
 
     <xsl:template match="frankenlist">
         <table border="0">
-            <th cellspacing="0">
-                <td>
+            <tr cellspacing="0">
+                <td colspan="2">
                     <strong>Name</strong>
                 </td>
-            </th>
+            </tr>
             <xsl:apply-templates/>
         </table>
     </xsl:template>
@@ -70,16 +70,15 @@ Example:
                     <xsl:value-of select="name"/>
                 </td>
                 <td>
-                    <xsl:element name="input">
-                        <xsl:attribute name="type">text</xsl:attribute>
-                        <xsl:attribute name="value">1</xsl:attribute>
-                        <xsl:attribute name="name">quantity</xsl:attribute>
-                    </xsl:element>
-                </td>
-                <td>
                     <input type="submit" value="BUY"/>
                 </td>
             </tr>
+            
+            <xsl:for-each select="bodyparts/bodypart">
+              <tr>
+                 <td colspan="2">* <i><xsl:value-of select="name"/></i></td>
+              </tr>
+           </xsl:for-each>
             
             <xsl:element name="input">
                 <xsl:attribute name="type">hidden</xsl:attribute>

@@ -12,6 +12,10 @@
             <param-value>/frankenstore/create_user.jsp</param-value>
         </init-param>
         <init-param>
+            <param-name>FRANKENLIST_PAGE</param-name>
+            <param-value>/frankenstore/frankenlist.jsp</param-value>
+        </init-param>
+        <init-param>
             <param-name>JDBC_URL</param-name>
             <param-value>jdbc:mysql://localhost:3306/frankenstore?user=pvark&amp;password=pvark</param-value>
         </init-param>

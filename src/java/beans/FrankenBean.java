@@ -6,8 +6,10 @@
 
 package beans;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,17 +18,60 @@ import java.util.Iterator;
 public class FrankenBean {
     private int frankenId;
     private String name;
-    private ArrayList bodyParts;
+    private String url;
+    private ArrayList<BodyPartBean> bodyParts;
     
-    public void addBodyPart(BodyPartBean bodyPart, int quantity) {
-        Object newItem[];
+    public FrankenBean(int _frankenId, String _name, String _url) throws SQLException, Exception {
+        frankenId = _frankenId;
+        name = _name;
+        url = _url;
         
-        if (bodyParts.isEmpty()) {
-            newItem = new Object[2];
-            newItem[0] = bodyPart;
-            newItem[1] = quantity;
-            bodyParts.add(newItem);
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        bodyParts = new ArrayList();
+            
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        
+            conn = DriverManager.getConnection(url);
+            
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM COMPONENTS_IN_PRODUCT WHERE PRODUCT_ID = " + frankenId + "";
+            
+            rs = stmt.executeQuery(sql);
+            
+            while (rs.next()) {
+                BodyPartBean bodyPart = new BodyPartBean(rs.getInt("COMPONENT_ID"));
+
+                bodyParts.add(bodyPart);
+            }
+            
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FrankenBean.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) {} 
+            
+            try {
+                stmt.close();
+            } catch (Exception e) {}
+            
+            try {
+                conn.close();
+            } catch (Exception e) {}
         }
+        
+    }
+    
+    public void addBodyPart(BodyPartBean bodyPart) {
+        
+        //if (bodyParts.isEmpty()) {
+            bodyParts.add(bodyPart);
+        //}
+        /*
         else {
             Iterator iter = bodyParts.iterator();
             Object tempArr[];
@@ -49,10 +94,13 @@ public class FrankenBean {
                 bodyParts.add(newItem);
             }
         }
+        */
     }
     
-    public void removeBodyPart(BodyPartBean bodyPart, int quantity) {
-        if (!bodyParts.isEmpty()) {
+    public void removeBodyPart(BodyPartBean bodyPart) {
+        bodyParts.remove(bodyPart);
+        
+        /*if (!bodyParts.isEmpty()) {
             Iterator iter = bodyParts.iterator();
             Object tempArr[];
             
@@ -72,11 +120,15 @@ public class FrankenBean {
                     break;
                 }
             }
-        }
+        }*/
     }
     
     public String getName() {
         return name;
+    }
+    
+    public void setName(String newname) {
+        name = newname;
     }
     
     public ArrayList getBodyParts() {
@@ -85,6 +137,10 @@ public class FrankenBean {
     
     public int getFrankenId() {
         return frankenId;
+    }
+    
+    public void setFrankenId(int i) {
+        frankenId = i;
     }
     
     public void clear() {
@@ -105,21 +161,13 @@ public class FrankenBean {
             out.append("]]></name>");
 
             Iterator iter = bodyParts.iterator();
-            Object objBuff[];
 
             out.append("<bodyparts>");
 
             while (iter.hasNext()) {
-                objBuff = (Object[]) iter.next();
-
-                out.append("<part>");
-                    out.append(((BodyPartBean) objBuff[0]).getXml());
-
-                    out.append("<quantity>");
-                        out.append(((Integer) objBuff[1]).intValue());
-                    out.append("</quantity>");
-
-                out.append("</part>");
+                BodyPartBean tempBodyPart = (BodyPartBean) iter.next();
+                
+                out.append(tempBodyPart.getXml());
             }
 
             out.append("</bodyparts>");

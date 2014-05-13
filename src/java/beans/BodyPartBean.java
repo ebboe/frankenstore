@@ -6,6 +6,8 @@
 
 package beans;
 
+import java.sql.*;
+
 /**
  *
  * @author farshid
@@ -13,10 +15,46 @@ package beans;
 public class BodyPartBean {
     private int bodyPartId;
     private String name;
+    private String url = "jdbc:mysql://localhost/frankenstore?user=pvark&password=pvark";
     
     public BodyPartBean() {
     }
     
+    public BodyPartBean(int id) throws Exception {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(url);
+            
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM COMPONENTS WHERE COMPONENT_ID =" + "'" + id + "'";
+            
+            rs = stmt.executeQuery(sql); 
+            
+            rs.next();
+            this.bodyPartId = rs.getInt("COMPONENT_ID");
+            this.name = rs.getString("NAME");
+            
+        } catch (SQLException e) {
+            throw new Exception(e);
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) {} 
+            
+            try {
+                stmt.close();
+            } catch (Exception e) {}
+            
+            try {
+                conn.close();
+            } catch (Exception e) {}
+        }
+    }   
+            
     public int getBodyPartId() {
         return bodyPartId;
     }

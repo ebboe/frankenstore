@@ -23,17 +23,21 @@ public final class ProfileBean {
     
     private String url;
     private String username;
+    private String role;
     private int identifier;
-    private ArrayList<String> names;
     
-    public ProfileBean (String _url) {
+    public ProfileBean(String _url, String _name) {
         url = _url;
         
         try {
-            this.getUsers();
-        } catch (Exception ex) {
-            Logger.getLogger(ProfileBean.class.getName()).log(Level.SEVERE, null, ex);
+            this.getUser(_name);
+        } catch (Exception e) {
+            
         }
+    }
+    
+    public ProfileBean(String _url) {
+        url = _url;
     }
     
     public void getUser(String userName) throws Exception {
@@ -72,52 +76,20 @@ public final class ProfileBean {
         }
     }
     
-    public void getUsers() throws Exception {
-        Connection conn =null;
-        Statement stmt = null;
-        ResultSet rs=null;
- 
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/frankenstore?user=pvark&password=pvark");
-            
-            stmt = conn.createStatement();
-            String sql;
-            sql ="SELECT * from CUSTOMERS where CUSTOMER_ID = 1";
-            rs= stmt.executeQuery(sql);
-
-	    // analyze the result set
-	    
-            while (!rs.isLast()) {
-                rs.next();
-                names.add(rs.getString("NAME"));
-            }
-	}   
-	catch(SQLException sqle){
-            throw new Exception(sqle);
-	}
-        finally{
- 	    try{
-		rs.close();
-            }
-            catch(Exception e) {}
-            try{
-		stmt.close();
-            }
-	    catch(Exception e) {}
-            try {
-		conn.close();
-            }
-            catch(Exception e){}
-        }
-    }
-    
     public String getUsername() {
         return username;
     }
     
     public void setUsername(String _username) {
         username = _username;
+    }
+    
+    public String getRole() {
+        return role;
+    }
+    
+    public void setRole(String _role) {
+        role = _role;
     }
 
     public int getId() {

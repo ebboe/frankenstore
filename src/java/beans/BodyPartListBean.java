@@ -8,7 +8,6 @@ package beans;
 
 import java.util.*;
 import java.sql.*;
-import java.io.*;
 
 /**
  *
@@ -35,7 +34,7 @@ public class BodyPartListBean {
             conn = DriverManager.getConnection(url);
             
             stmt = conn.createStatement();
-            String sql = "SELECT COMPONENT_ID, NAME, QUANTITY AS AUTHOR_NAME FROM COMPONENTS";
+            String sql = "SELECT * FROM COMPONENTS";
             
             rs = stmt.executeQuery(sql); 
             

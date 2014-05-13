@@ -21,6 +21,7 @@ import javax.servlet.http.*;
 public class StoreServlet extends HttpServlet {
     private static String loginPage = null;
     private static String createUserPage = null;
+    private static String frankenlistPage = null;
     private static String jdbcURL = null;
     private BodyPartListBean bodyPartList = null;
         
@@ -30,6 +31,7 @@ public class StoreServlet extends HttpServlet {
         
         loginPage = config.getInitParameter("LOGIN_USER_PAGE");
         createUserPage = config.getInitParameter("CREATE_USER_PAGE");
+        frankenlistPage = config.getInitParameter("FRANKENLIST_PAGE");
         jdbcURL = config.getInitParameter("JDBC_URL");
         
         try {
@@ -74,7 +76,7 @@ public class StoreServlet extends HttpServlet {
             sess.setAttribute("profile", user);
             
             
-            response.sendRedirect(createUserPage);
+            response.sendRedirect(frankenlistPage);
             
         } else if (request.getParameter("action").equals("create_user")) {
             

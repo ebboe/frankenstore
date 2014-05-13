@@ -30,7 +30,7 @@ public class BodyPartBean {
             conn = DriverManager.getConnection(url);
             
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM COMPONENTS WHERE COMPONENT_ID =" + "'" + id + "'";
+            String sql = "SELECT * FROM COMPONENTS WHERE COMPONENT_ID =" + id + "";
             
             rs = stmt.executeQuery(sql); 
             
@@ -80,7 +80,7 @@ public class BodyPartBean {
             xmlOut.append("</id>");
             xmlOut.append("<name><![CDATA[");
                 xmlOut.append(name);
-            xmlOut.append("]]</name>");
+            xmlOut.append("]]></name>");
         xmlOut.append("</bodypart>");
         
         return xmlOut.toString();

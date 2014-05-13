@@ -9,10 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Frankenstore: Create new user</title>
+        <title>FrankenStore: Create new user</title>
     </head>
     <body>
-        <h1>Please create your Frankenstore profile. 
+        <h1>Please create your FrankenStore profile. 
       </h1>
       <table border=0>
 	<form action=shop?action=usercreate method=post>
@@ -21,7 +21,7 @@
       <td> <input type="text" name="user" value="${profile.username}" ></td>
       </tr>
 	<tr>
-	<td>Select roles:</td>
+	<td>Administrator?</td>
         <td><input type="checkbox" name="role" value="${profile.role}"> </td>
       </table> 
 	<input type="submit" value="Go">

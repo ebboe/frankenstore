@@ -77,7 +77,9 @@ public class StoreServlet extends HttpServlet {
             response.sendRedirect(createUserPage);
             
         } else if (request.getParameter("action").equals("create_user")) {
-            
+            response.sendRedirect(createUserPage);
+        } else if (request.getParameter("action").equals("usercreate")) {
+            ProfileBean createuser = new ProfileBean(jdbcURL);
         }
         
         /*

@@ -11,19 +11,25 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Frankenstore</title>
+        <title>FrankenStore: List of Frankens</title>
     </head>
     <body>
-        <h1>Frankenstore</h1>
-        <jsp:useBean id="frankenList" class="beans.FrankenListBean" scope="application">
-            Error, the bean should have been created in the servlet!
-        </jsp:useBean>
-    <c:set var="frankenlist_xslt">
-        <c:import url="frankenlist_xslt.xsl"/>
-    </c:set>
-    
-    <x:transform xslt="${frankenlist_xslt}">
-        <jsp:getProperty name="frankenList" property="xml"/>
-    </x:transform>
+        <jsp:useBean id="frankenList" class="beans.FrankenListBean" scope="application" />
+        <c:set var="frankenlist_xslt">
+            <c:import url="frankenlist_xslt.xsl"/>
+        </c:set>
+
+        <x:transform xslt="${frankenlist_xslt}">
+            <jsp:getProperty name="frankenList" property="xml"/>
+        </x:transform>
+        <br><br>
+        
+        <c:set var="shoppingcart_xslt">
+            <c:import url="shoppingcart_xslt.xsl"/>
+        </c:set>
+
+        <x:transform xslt="${shoppingcart_xslt}">
+            <jsp:getProperty name="shoppingCart" property="xml"/>
+        </x:transform>
     </body>
 </html>

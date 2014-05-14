@@ -64,7 +64,7 @@ Example:
     </xsl:template>
     
     <xsl:template match="franken">
-        <form method="post" action="shop">
+        <form method="post" action="store">
             <tr>
                 <td>
                     <xsl:value-of select="name"/>
@@ -76,7 +76,7 @@ Example:
             
             <xsl:for-each select="bodyparts/bodypart">
               <tr>
-                 <td colspan="2">* <i><xsl:value-of select="name"/></i></td>
+                 <td colspan="1">* <i><xsl:value-of select="name"/></i></td>
               </tr>
            </xsl:for-each>
             
@@ -85,6 +85,8 @@ Example:
                 <xsl:attribute name="value"><xsl:value-of select="id"/></xsl:attribute>
                 <xsl:attribute name="name">frankenid</xsl:attribute>
             </xsl:element>
+            
+            <input type="hidden" name="action" value="add_to_cart"/>
         </form>
     </xsl:template>
 

@@ -65,6 +65,20 @@ public class FrankenListBean {
         return frankenList;
     }
     
+    public FrankenBean getFrankenBean(int id) {
+        Iterator iter = frankenList.iterator();
+        
+        FrankenBean frankenBean;
+        
+        while (iter.hasNext()) {
+            frankenBean = (FrankenBean) iter.next();
+            if (frankenBean.getFrankenId() == id) {
+                return frankenBean;
+            }
+        }
+        return null;
+    }
+    
     public String getXml() {
         FrankenBean frankenBean;
         Iterator iter = frankenList.iterator();

@@ -23,7 +23,7 @@ public class ProfileUpdateBean {
         url = _url;
     }
     
-    public void setProfile(ProfileBean prb) throws Exception {
+    public void updateProfile(ProfileBean prb) throws Exception {
         Statement stmt = null;
         Connection conn = null;
         int rsdummy;
@@ -60,7 +60,7 @@ public class ProfileUpdateBean {
     }
     // save new user
     
-    public void saveUser(ProfileBean prb) throws Exception {
+    public void insertUser(ProfileBean prb) throws Exception {
         Statement stmt = null;
         Connection conn = null;
         int rsdummy;

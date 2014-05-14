@@ -24,6 +24,7 @@ public class StoreServlet extends HttpServlet {
     private static String frankenlistPage = null;
     private static String jdbcURL = null;
     private BodyPartListBean bodyPartList = null;
+    private FrankenListBean frankenList = null;
         
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -33,6 +34,12 @@ public class StoreServlet extends HttpServlet {
         createUserPage = config.getInitParameter("CREATE_USER_PAGE");
         frankenlistPage = config.getInitParameter("FRANKENLIST_PAGE");
         jdbcURL = config.getInitParameter("JDBC_URL");
+        
+        try {
+            frankenList = new FrankenListBean();
+        } catch (Exception ex) {
+            throw new ServletException(ex);
+        }
         
         try {
             bodyPartList = new BodyPartListBean(jdbcURL);
@@ -82,6 +89,24 @@ public class StoreServlet extends HttpServlet {
             response.sendRedirect(createUserPage);
         } else if (request.getParameter("action").equals("usercreate")) {
             ProfileBean createuser = new ProfileBean(jdbcURL);
+<<<<<<< HEAD
+        } else if (request.getParameter("action").equals("add_to_cart")) {
+            
+            int frankenid = Integer.parseInt(request.getParameter("frankenid"));
+            FrankenBean tempFranken = frankenList.getFrankenBean(frankenid);
+            
+            shoppingBean.addFranken(tempFranken);
+            
+            response.sendRedirect(frankenlistPage);
+            
+=======
+            try {
+                createuser.insertUser();
+            } catch (Exception e) {
+                throw new ServletException("Error saving user profile", e);
+            }
+            sess.setAttribute("profile", createuser);
+>>>>>>> FETCH_HEAD
         }
         
         /*

@@ -15,63 +15,22 @@ import java.util.Iterator;
  */
 public class ShoppingCartBean {
     
-    private ArrayList cart;
+    private ArrayList<FrankenBean> cart;
     
-    public void addFranken(FrankenBean franken, int quantity) {
-        Object newItem[];
-        
-        if (cart.isEmpty()) {
-            newItem = new Object[2];
-            newItem[0] = franken;
-            newItem[1] = quantity;
-            cart.add(newItem);
-        }
-        else {
-            Iterator iter = cart.iterator();
-            Object tempArr[];
-            boolean found = false;
-            
-            while (iter.hasNext()) {
-                tempArr = (Object[]) iter.next();
-                
-                if (((FrankenBean) tempArr[0]).getFrankenId() == franken.getFrankenId()) {
-                    Integer tempQuantity = (Integer) tempArr[1];
-                    tempArr[1] = tempQuantity + quantity;
-                    found = true;
-                }
-            }
-            
-            if (!found) {
-                newItem = new Object[2];
-                newItem[0] = franken;
-                newItem[1] = quantity;
-                cart.add(newItem);
-            }
-        }
+    public ShoppingCartBean() {
+        cart = new ArrayList();
     }
     
-    public void removeFranken(int id, int quantity) {
-        if (!cart.isEmpty()) {
-            Iterator iter = cart.iterator();
-            Object tempArr[];
-            
-            while (iter.hasNext()) {
-                tempArr = (Object[]) iter.next();
-                if (((FrankenBean) tempArr[0]).getFrankenId() == id) {
-                    
-                    Integer tempQuantity = (Integer) tempArr[1];
-                    
-                    if (tempQuantity <= quantity) {
-                        iter.remove();
-                    }
-                    else {
-                        tempArr[1] = tempQuantity - quantity;
-                    }
-                    
-                    break;
-                }
-            }
-        }
+    public void addFranken(FrankenBean franken) {
+        cart.add(franken);
+    }
+    
+    public void addFranken(int id) {
+        
+    }
+    
+    public void removeFranken(FrankenBean franken) {
+        cart.remove(franken);
     }
     
     public void clear() {
@@ -80,21 +39,17 @@ public class ShoppingCartBean {
     
     public String getXml() {
         StringBuilder out = new StringBuilder();
+        FrankenBean tempFranken;
         
         Iterator iter = cart.iterator();
-        Object objBuff[];
         
         out.append("<shoppingcart>");
         
         while (iter.hasNext()) {
-            objBuff = (Object[]) iter.next();
-            
             out.append("<order>");
-            out.append(((FrankenBean) objBuff[0]).getXml());
             
-            out.append("<quantity>");
-            out.append(((Integer) objBuff[1]).intValue());
-            out.append("</quantity>");
+            tempFranken = (FrankenBean) iter.next();
+            out.append(tempFranken.getXml());
             
             out.append("</order>");
         }

@@ -26,7 +26,7 @@
                     <td><input type="submit" value="Login"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><a href="store?action=create_user">I ain't got no account</a>
+                    <td colspan="2"><a href="create_user.jsp">I ain't got no account</a>
                 </tr>
             </table>
         </form>

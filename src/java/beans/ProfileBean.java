@@ -76,6 +76,77 @@ public final class ProfileBean {
         }
     }
     
+    public void updateProfile() throws Exception {
+        Statement stmt = null;
+        Connection conn = null;
+        int rsdummy;
+        
+        try {
+            String sql;
+            Class.forName("com.myql.jdbc.Driver");
+            conn = DriverManager.getConnection(url);
+            
+            stmt = conn.createStatement();
+            conn.setAutoCommit(false);
+            
+            // the sql query goes here
+            sql = "UPDATE CUSTOMERS SET NAME = " + "'" + username;
+            sql += "'" + " WHERE CUSTOMER_ID = " + identifier + ";";
+            rsdummy = stmt.executeUpdate(sql);
+            // user roles?
+            conn.commit();
+        }
+        catch (SQLException sqle) {
+            conn.rollback();
+            throw new Exception(sqle);
+        }
+        finally {
+            try {
+                stmt.close();
+            }
+            catch(Exception e) {}
+            try {
+                conn.close();
+            }
+            catch(Exception e) {}
+        }
+    }
+    // save new user
+    
+    public void insertUser() throws Exception {
+        Statement stmt = null;
+        Connection conn = null;
+        int rsdummy;
+        
+        try {
+            String sql;
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(url);
+            stmt = conn.createStatement();
+            
+            conn.setAutoCommit(false);
+            sql = "INSERT INTO CONSUMERS (NAME, ROLE) VALUES ( ";
+            sql += "'" + username + "', '" + role + "');";
+            rsdummy = stmt.executeUpdate(sql);
+            //user role stuff
+            conn.commit();
+        }
+        catch (SQLException sqle) {
+            conn.rollback();
+            throw new Exception(sqle);
+        }
+        finally {
+            try {
+                stmt.close();
+            }
+            catch(Exception e) {}
+            try {
+                conn.close();
+            }
+            catch(Exception e) {}
+        }
+    }
+    
     public String getUsername() {
         return username;
     }

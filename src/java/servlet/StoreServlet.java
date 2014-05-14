@@ -82,6 +82,12 @@ public class StoreServlet extends HttpServlet {
             response.sendRedirect(createUserPage);
         } else if (request.getParameter("action").equals("usercreate")) {
             ProfileBean createuser = new ProfileBean(jdbcURL);
+            try {
+                createuser.insertUser();
+            } catch (Exception e) {
+                throw new ServletException("Error saving user profile", e);
+            }
+            sess.setAttribute("profile", createuser);
         }
         
         /*

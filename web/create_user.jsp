@@ -15,7 +15,7 @@
         <h1>Please create your FrankenStore profile. 
       </h1>
       <table border=0>
-	<form action=shop?action=usercreate method=post>
+	<form action="store?action=usercreate" method="post">
       <tr>
 	<td>Username:</td>
       <td> <input type="text" name="user" value="${profile.username}" ></td>

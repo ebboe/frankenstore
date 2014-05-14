@@ -38,7 +38,7 @@
     </xsl:template>
     
     <xsl:template match="order">
-        <form method="post" action="shop">
+        <form method="post" action="store">
             <tr>
                 
                 <td>
@@ -48,6 +48,7 @@
                 <td>
                     <input type="submit" value="Remove"/>
                 </td>
+                
                 
                 <xsl:for-each select="franken/bodyparts/bodypart">
                     <tr>
@@ -62,7 +63,7 @@
                 </xsl:element>
                 <xsl:element name="input"> <!--A ordinary input in XSLT-->
                     <xsl:attribute name="type">hidden</xsl:attribute>
-                    <xsl:attribute name="value">remove</xsl:attribute>
+                    <xsl:attribute name="value">remove_from_cart</xsl:attribute>
                     <xsl:attribute name="name">action</xsl:attribute>
                 </xsl:element>
 

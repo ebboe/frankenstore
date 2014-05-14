@@ -86,7 +86,11 @@ Example:
                 <xsl:attribute name="name">frankenid</xsl:attribute>
             </xsl:element>
             
-            <input type="hidden" name="action" value="add_to_cart"/>
+            <xsl:element name="input"> <!--A ordinary input in XSLT-->
+                <xsl:attribute name="type">hidden</xsl:attribute>
+                <xsl:attribute name="value">add_to_cart</xsl:attribute>
+                <xsl:attribute name="name">action</xsl:attribute>
+            </xsl:element>
         </form>
     </xsl:template>
 

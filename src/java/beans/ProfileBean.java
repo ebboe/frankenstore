@@ -125,7 +125,7 @@ public final class ProfileBean {
             stmt = conn.createStatement();
             
             conn.setAutoCommit(false);
-            sql = "INSERT INTO CONSUMERS (NAME, ROLE) VALUES ( ";
+            sql = "INSERT INTO CUSTOMERS (NAME, ROLE) VALUES ( ";
             sql += "'" + username + "', '" + role + "');";
             rsdummy = stmt.executeUpdate(sql);
             //user role stuff

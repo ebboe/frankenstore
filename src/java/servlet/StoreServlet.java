@@ -89,6 +89,14 @@ public class StoreServlet extends HttpServlet {
             response.sendRedirect(createUserPage);
         } else if (request.getParameter("action").equals("usercreate")) {
             ProfileBean createuser = new ProfileBean(jdbcURL);
+            
+            createuser.setUsername(request.getParameter("user"));
+            if (request.getParameter("role") == null) {
+                createuser.setRole("USER");
+            }
+            else {
+                createuser.setRole("ADMIN");
+            }
 
             try {
                 createuser.insertUser();
@@ -96,15 +104,22 @@ public class StoreServlet extends HttpServlet {
                 throw new ServletException("Error saving user profile", e);
             }
             sess.setAttribute("profile", createuser);
+            
+            response.sendRedirect(loginPage);
         } else if (request.getParameter("action").equals("add_to_cart")) {
             
             int frankenid = Integer.parseInt(request.getParameter("frankenid"));
-            FrankenBean tempFranken = frankenList.getFrankenBean(frankenid);
+            FrankenBean addFranken = frankenList.getFrankenBean(frankenid);
             
-            shoppingBean.addFranken(tempFranken);
+            shoppingBean.addFranken(addFranken);
             
             response.sendRedirect(frankenlistPage);
-
+        } else if (request.getParameter("action").equals("remove_from_cart")) {
+            int frankenid = Integer.parseInt(request.getParameter("frankenid"));
+            FrankenBean removeFranken = frankenList.getFrankenBean(frankenid);
+            
+            shoppingBean.removeFranken(removeFranken);
+            response.sendRedirect(frankenlistPage);
         }
     }
     

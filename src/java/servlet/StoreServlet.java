@@ -89,7 +89,13 @@ public class StoreServlet extends HttpServlet {
             response.sendRedirect(createUserPage);
         } else if (request.getParameter("action").equals("usercreate")) {
             ProfileBean createuser = new ProfileBean(jdbcURL);
-<<<<<<< HEAD
+
+            try {
+                createuser.insertUser();
+            } catch (Exception e) {
+                throw new ServletException("Error saving user profile", e);
+            }
+            sess.setAttribute("profile", createuser);
         } else if (request.getParameter("action").equals("add_to_cart")) {
             
             int frankenid = Integer.parseInt(request.getParameter("frankenid"));
@@ -98,30 +104,8 @@ public class StoreServlet extends HttpServlet {
             shoppingBean.addFranken(tempFranken);
             
             response.sendRedirect(frankenlistPage);
-            
-=======
-            try {
-                createuser.insertUser();
-            } catch (Exception e) {
-                throw new ServletException("Error saving user profile", e);
-            }
-            sess.setAttribute("profile", createuser);
->>>>>>> FETCH_HEAD
+
         }
-        
-        /*
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet StoreServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet StoreServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }*/
     }
     
     private ShoppingCartBean getCart(HttpServletRequest request) {

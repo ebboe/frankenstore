@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -165,5 +166,62 @@ public final class ProfileBean {
 
     public int getId() {
         return identifier;
+    }
+    
+    public void checkout(ShoppingCartBean shoppingCart) throws Exception {
+        Statement stmt = null;
+        Connection conn = null;
+        int rsdummy;
+        
+        try {
+            String sql;
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            conn = DriverManager.getConnection(url);
+            stmt = conn.createStatement();
+            conn.setAutoCommit(false);
+            
+            sql = "INSERT INTO ORDERS (CUSTOMER) VALUES ( ";
+            sql += "'" + identifier + "');";
+            rsdummy = stmt.executeUpdate(sql);
+            conn.commit();
+            
+            sql = "SELECT ORDER_ID from ORDERS WHERE CUSTOMER = ";
+            sql += "'" + identifier + "';";
+            ResultSet resultSet = null;
+            resultSet = stmt.executeQuery(sql);
+            conn.commit();
+            
+            resultSet.last();
+            int orderId = resultSet.getInt(1);
+            
+            Iterator iter = shoppingCart.getIterator();
+            int productId;
+            
+            while (iter.hasNext()) {
+                
+                
+                productId = ((FrankenBean) iter.next()).getFrankenId();
+                
+                sql = "INSERT INTO PRODUCTS_IN_ORDER (PRODUCT_ID, ORDER_ID) VALUES (";
+                sql += "" + productId + ", " + orderId + ");";
+                
+                rsdummy = stmt.executeUpdate(sql);
+            }
+            conn.commit();
+        }
+        catch (SQLException sqle) {
+            conn.rollback();
+            throw new Exception(sqle);
+        }
+        finally {
+            try {
+                stmt.close();
+            }
+            catch(Exception e) {}
+            try {
+                conn.close();
+            }
+            catch(Exception e) {}
+        }
     }
 }

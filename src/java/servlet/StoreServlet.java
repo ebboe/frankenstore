@@ -67,10 +67,10 @@ public class StoreServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession sess = request.getSession();
+        HttpSession session = request.getSession();
         RequestDispatcher rd = null;
         ShoppingCartBean shoppingBean = getCart(request);
-        sess.setAttribute("jdbcURL", jdbcURL);
+        session.setAttribute("jdbcURL", jdbcURL);
         
         if (request.getParameter("action").equals("login")) {
             ProfileBean user = new ProfileBean(jdbcURL);
@@ -80,11 +80,18 @@ public class StoreServlet extends HttpServlet {
             } catch (Exception e) {
                 throw new ServletException("Error loading profile", e);
             }
-            sess.setAttribute("profile", user);
+            session.setAttribute("profile", user);
             
             
             response.sendRedirect(frankenlistPage);
+        } else if (request.getParameter("action").equals("logout")) {
             
+            session.removeAttribute("jdbcURL");
+            session.removeAttribute("profile");
+            session.removeAttribute("shoppingCart");
+            session.invalidate();
+            
+            response.sendRedirect(loginPage);
         } else if (request.getParameter("action").equals("create_user")) {
             response.sendRedirect(createUserPage);
         } else if (request.getParameter("action").equals("usercreate")) {
@@ -103,7 +110,7 @@ public class StoreServlet extends HttpServlet {
             } catch (Exception e) {
                 throw new ServletException("Error saving user profile", e);
             }
-            sess.setAttribute("profile", createuser);
+            session.setAttribute("profile", createuser);
             
             response.sendRedirect(loginPage);
         } else if (request.getParameter("action").equals("add_to_cart")) {
@@ -119,6 +126,17 @@ public class StoreServlet extends HttpServlet {
             FrankenBean removeFranken = frankenList.getFrankenBean(frankenid);
             
             shoppingBean.removeFranken(removeFranken);
+            response.sendRedirect(frankenlistPage);
+        } else if (request.getParameter("action").equals("checkout")) {
+            
+            ProfileBean profile = (ProfileBean) session.getAttribute("profile");
+            
+            try {
+                profile.checkout(shoppingBean);
+            } catch (Exception ex) {
+                Logger.getLogger(StoreServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //session.removeAttribute("shoppingCart");
             response.sendRedirect(frankenlistPage);
         }
     }

@@ -14,6 +14,7 @@
         <title>FrankenStore: List of Frankens</title>
     </head>
     <body>
+        <a href="store?action=logout">Logout</a>
         <jsp:useBean id="frankenList" class="beans.FrankenListBean" scope="application" />
         <c:set var="frankenlist_xslt">
             <c:import url="frankenlist_xslt.xsl"/>
@@ -31,5 +32,7 @@
         <x:transform xslt="${shoppingcart_xslt}">
             <jsp:getProperty name="shoppingCart" property="xml"/>
         </x:transform>
+        
+        <a href="store?action=checkout">Checkout</a>
     </body>
 </html>

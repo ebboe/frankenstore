@@ -28,12 +28,6 @@
             </tr>
 
             <xsl:apply-templates/>
-
-            <tr>
-                <td>
-                    <a href="shop?action=checkout">Checkout</a>
-                </td>
-            </tr>
         </table>
     </xsl:template>
     

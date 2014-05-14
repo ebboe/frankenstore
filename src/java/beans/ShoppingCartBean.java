@@ -59,4 +59,8 @@ public class ShoppingCartBean {
         return out.toString();
         
     }
+    
+    public Iterator getIterator() {
+        return cart.iterator();
+    }
 }

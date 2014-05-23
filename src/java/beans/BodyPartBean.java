@@ -75,12 +75,15 @@ public class BodyPartBean {
         StringBuilder xmlOut = new StringBuilder();
         
         xmlOut.append("<bodypart>");
+        
             xmlOut.append("<id>");
                 xmlOut.append(bodyPartId);
             xmlOut.append("</id>");
+            
             xmlOut.append("<name><![CDATA[");
                 xmlOut.append(name);
             xmlOut.append("]]></name>");
+            
         xmlOut.append("</bodypart>");
         
         return xmlOut.toString();

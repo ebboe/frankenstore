@@ -60,6 +60,7 @@ public final class ProfileBean {
             rs.next();
             username = rs.getString("NAME");
             identifier = rs.getInt("CUSTOMER_ID");
+            role = rs.getString("ROLE");
             
 	} catch(SQLException sqle) {
             throw new Exception(sqle);
@@ -217,6 +218,16 @@ public final class ProfileBean {
     
     public String getRole() {
         return role;
+    }
+    
+    public boolean isAdmin() {
+        if (role != null) {
+            if (role.equals("ADMIN")) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     public void setRole(String _role) {

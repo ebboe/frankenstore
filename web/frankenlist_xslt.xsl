@@ -8,47 +8,6 @@
         Purpose of transformation follows.
 -->
 
-<!--
-Example:
-<franken>
-    <id>
-        37
-    </id>
-    <name>
-        Awesome Franken
-    </name>
-    <bodyparts>
-        <bodypart>
-            <part>
-                    <id>
-                        1337
-                    </id>
-                    <name>
-                        Rotten arm
-                    </name>
-            </part>
-            <quantity>
-                2
-            </quantity>
-        </bodypart>
-        <bodypart>
-            <part>
-                    <id>
-                        42
-                    </id>
-                    <name>
-                        Robot torso
-                    </name>
-            </part>
-            <quantity>
-                1
-            </quantity>
-        </bodypart>
-
-    </bodyparts>   
-</franken>
--->
-
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:output method="html"/>
 

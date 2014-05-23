@@ -19,6 +19,10 @@
             <param-name>JDBC_URL</param-name>
             <param-value>jdbc:mysql://localhost:3306/frankenstore?user=pvark&amp;password=pvark</param-value>
         </init-param>
+        <init-param>
+            <param-name>ADMIN_PAGE</param-name>
+            <param-value>/frankenstore/admin_page.jsp</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>Store</servlet-name>

@@ -22,6 +22,7 @@ public class StoreServlet extends HttpServlet {
     private static String loginPage = null;
     private static String createUserPage = null;
     private static String frankenlistPage = null;
+    private static String adminPage = null;
     private static String jdbcURL = null;
     private BodyPartListBean bodyPartList = null;
     private FrankenListBean frankenList = null;
@@ -33,6 +34,8 @@ public class StoreServlet extends HttpServlet {
         loginPage = config.getInitParameter("LOGIN_USER_PAGE");
         createUserPage = config.getInitParameter("CREATE_USER_PAGE");
         frankenlistPage = config.getInitParameter("FRANKENLIST_PAGE");
+        adminPage = config.getInitParameter("ADMIN_PAGE");
+        
         jdbcURL = config.getInitParameter("JDBC_URL");
         
         try {
@@ -46,9 +49,6 @@ public class StoreServlet extends HttpServlet {
         } catch (Exception e) {
             throw new ServletException(e);
         }
-        
-        ServletContext sc = getServletContext();
-        sc.setAttribute("bodyPartList", bodyPartList);
     }
     
     public void destroy() {
@@ -159,6 +159,12 @@ public class StoreServlet extends HttpServlet {
             }
             //session.removeAttribute("shoppingCart");
             response.sendRedirect(frankenlistPage);
+        } else if (request.getParameter("action").equals("create_new_franken")) {
+           FrankenBean newFranken = new FrankenBean(jdbcURL);
+            
+           session.setAttribute("bodyPartList", bodyPartList);
+           session.setAttribute("franken", newFranken);
+           response.sendRedirect(adminPage);
         }
     }
     

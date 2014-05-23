@@ -15,6 +15,9 @@
     </head>
     <body>
         <a href="store?action=logout">Logout</a>
+        <c:if test="${profile.isAdmin()}">
+            <a href="store?action=create_new_franken">Add new Franken</a>
+        </c:if>
         <jsp:useBean id="frankenList" class="beans.FrankenListBean" scope="application" />
         <c:set var="frankenlist_xslt">
             <c:import url="frankenlist_xslt.xsl"/>

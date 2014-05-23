@@ -21,6 +21,10 @@ public class FrankenBean {
     private String url;
     private ArrayList<BodyPartBean> bodyParts;
     
+    public FrankenBean(String _url) {
+        url = _url;
+    }
+    
     public FrankenBean(int _frankenId, String _name, String _url) throws SQLException, Exception {
         frankenId = _frankenId;
         name = _name;

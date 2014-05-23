@@ -34,5 +34,6 @@
         </x:transform>
         
         <a href="store?action=checkout">Checkout</a>
+        <a href="update_user.jsp">Update account details</a>
     </body>
 </html>

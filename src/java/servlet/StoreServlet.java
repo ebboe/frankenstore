@@ -113,6 +113,27 @@ public class StoreServlet extends HttpServlet {
             session.setAttribute("profile", createuser);
             
             response.sendRedirect(loginPage);
+        } else if (request.getParameter("action").equals("update_user")) {
+            
+            ProfileBean updateuser = (ProfileBean) session.getAttribute("profile");
+            
+            updateuser.setUsername(request.getParameter("user"));
+            if (request.getParameter("role") == null) {
+                updateuser.setRole("USER");
+            }
+            else {
+                updateuser.setRole("ADMIN");
+            }
+
+            try {
+                updateuser.updateProfile();
+            } catch (Exception e) {
+                throw new ServletException("Error saving user profile", e);
+            }
+            session.setAttribute("profile", updateuser);
+            
+            response.sendRedirect(frankenlistPage);
+            
         } else if (request.getParameter("action").equals("add_to_cart")) {
             
             int frankenid = Integer.parseInt(request.getParameter("frankenid"));

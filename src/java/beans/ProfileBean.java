@@ -26,6 +26,7 @@ public final class ProfileBean {
     private String username;
     private String role;
     private int identifier;
+    private ArrayList<String> frankensInOrders;
     
     public ProfileBean(String _url, String _name) {
         url = _url;
@@ -77,6 +78,63 @@ public final class ProfileBean {
         }
     }
     
+    public void getPreviousOrders() throws Exception {
+        Statement stmt = null;
+        Connection conn = null;
+        ResultSet rs=null;
+        ResultSet rsTemp = null;
+        ResultSet rsTemp2 = null;
+        ArrayList<String> frankensInOrders = new ArrayList();
+ 
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            conn=DriverManager.getConnection(url);
+            
+            stmt = conn.createStatement();
+            conn.setAutoCommit(false);
+            String sql = "SELECT * FROM ORDERS WHERE CUSTOMER = " + "'" + identifier + "'";
+            rs = stmt.executeQuery(sql);
+            conn.commit();
+
+	    // analyze the result set
+            
+            
+            
+            while (rs.next()) {
+                sql = "SELECT PRODUCT_ID FROM PRODUCTS_IN_ORDER WHERE ORDER_ID = ";
+                sql += "'" + rs.getInt("ORDER_ID") + "'";
+                rsTemp = stmt.executeQuery(sql);
+                conn.commit();
+                
+                while (rsTemp.next()) {
+                    sql = "SELECT NAME FROM PRODUCTS WHERE PRODUCT_ID = ";
+                    sql += "'" + rs.getInt("PRODUCT_ID") + "'";
+                    rsTemp2 = stmt.executeQuery(sql);
+                    frankensInOrders.add(rsTemp2.getString("NAME")); 
+                }
+
+                
+            }
+	    
+
+            
+	} catch(SQLException sqle) {
+            throw new Exception(sqle);
+	} finally {
+ 	    try{
+		rs.close();
+            } catch(Exception e) {}
+            
+            try {
+		stmt.close();
+            } catch(Exception e) {}
+            
+            try {
+		conn.close();
+            } catch(Exception e){}
+        }
+    }
+    
     public void updateProfile() throws Exception {
         Statement stmt = null;
         Connection conn = null;
@@ -84,15 +142,16 @@ public final class ProfileBean {
         
         try {
             String sql;
-            Class.forName("com.myql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
             conn = DriverManager.getConnection(url);
             
             stmt = conn.createStatement();
             conn.setAutoCommit(false);
             
             // the sql query goes here
-            sql = "UPDATE CUSTOMERS SET NAME = " + "'" + username;
-            sql += "'" + " WHERE CUSTOMER_ID = " + identifier + ";";
+            sql = "UPDATE CUSTOMERS SET NAME = " + "'" + username + "'";
+            sql += ", " + "ROLE = " + "'" + role + "'";
+            sql += " WHERE CUSTOMER_ID = " + identifier + ";";
             rsdummy = stmt.executeUpdate(sql);
             // user roles?
             conn.commit();
@@ -166,6 +225,10 @@ public final class ProfileBean {
 
     public int getId() {
         return identifier;
+    }
+    
+    public ArrayList<String> getFrankensInOrders() {
+        return frankensInOrders;
     }
     
     public void checkout(ShoppingCartBean shoppingCart) throws Exception {

@@ -13,24 +13,27 @@
         <title>Create new Franken</title>
     </head>
     <body>
-      <h1>Create a new Franken here!</h1>
-      <table border=0>
-        <tr>
-          <td>
-              <p>Name of Franken: </p>
-          </td>
-          <td>
-              <input type="text" name="name" value="${franken.name}">
-          </td>
-          <td>
-              <input type="submit" action="store?action=save_franken" value="Create">
-          </td>
-        </tr>
-        <tr>
-            <x:transform xslt="<c:import url="create_franken_xslt.xsl"/>">
-                ${bodyPartList.xml}
-            </x:transform>
-        </tr>
-       </table>
+        <h1>Create a new Franken here!</h1>
+        <strong>Select the body parts that should be part of this Franken.</strong>
+        <form action="store?action=add_new_part" method="POST">
+            <table>
+                <tr>
+                <input type="text" name="frankenName" value="${franken.name}">
+                </tr>
+                <tr>
+                    <td>
+                        <select name="bodypart">
+                            ${bodyPartList.html}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" value="Add to Franken">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <br>
+        <br>
+        <form action="store?action=save_franken" method="POST"><input type="submit" value="Save Franken"></form>
     </body>
 </html>

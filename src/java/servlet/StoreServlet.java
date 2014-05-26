@@ -51,6 +51,7 @@ public class StoreServlet extends HttpServlet {
         }
     }
     
+    
     public void destroy() {
         
     }
@@ -160,11 +161,39 @@ public class StoreServlet extends HttpServlet {
             //session.removeAttribute("shoppingCart");
             response.sendRedirect(frankenlistPage);
         } else if (request.getParameter("action").equals("create_new_franken")) {
-           FrankenBean newFranken = new FrankenBean(jdbcURL);
+            FrankenBean newFranken = new FrankenBean(jdbcURL);
+            session.setAttribute("franken", newFranken);
+            session.setAttribute("bodyPartList", bodyPartList);
+           response.sendRedirect(adminPage);
+        } else if (request.getParameter("action").equals("add_new_part")) {
+           FrankenBean newFranken = (FrankenBean)session.getAttribute("franken");
+           String frankenName = request.getParameter("frankenName");
+           newFranken.setName(frankenName);
+           
+           int bodyPartId = Integer.parseInt(request.getParameter("bodypart"));
+           BodyPartBean bodyPart = null;
+           
+            try {
+                bodyPart = new BodyPartBean(bodyPartId);
+            } catch (Exception ex) {
+                Logger.getLogger(StoreServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
+            newFranken.addBodyPart(bodyPart);
+           
            session.setAttribute("bodyPartList", bodyPartList);
            session.setAttribute("franken", newFranken);
            response.sendRedirect(adminPage);
+        } else if (request.getParameter("action").equals("save_franken")) {
+           FrankenBean franken = (FrankenBean)session.getAttribute("franken");
+           
+            try {
+                franken.save();
+            } catch (Exception ex) {
+                Logger.getLogger(StoreServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
+           response.sendRedirect(frankenlistPage);
         }
     }
     

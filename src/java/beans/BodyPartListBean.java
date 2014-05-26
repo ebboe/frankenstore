@@ -83,4 +83,18 @@ public class BodyPartListBean {
         return sb.toString();
     }
     
+    public String getHtml() {
+        BodyPartBean partBean;
+        Iterator iter = bodyPartList.iterator();
+        StringBuilder sb = new StringBuilder();
+        
+        while (iter.hasNext()) {
+            partBean = (BodyPartBean)iter.next();
+            sb.append(partBean.getHtml());
+            sb.append("\n");
+        }
+        
+        return sb.toString();
+    }
+    
 }

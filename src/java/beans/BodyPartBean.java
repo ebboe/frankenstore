@@ -15,15 +15,17 @@ import java.sql.*;
 public class BodyPartBean {
     private int bodyPartId;
     private String name;
-    private String url = "jdbc:mysql://localhost/frankenstore?user=pvark&password=pvark";
+    private String url;
     
     public BodyPartBean() {
+        url = "jdbc:mysql://localhost/frankenstore?user=pvark&password=pvark";
     }
     
     public BodyPartBean(int id) throws Exception {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
+        url = "jdbc:mysql://localhost/frankenstore?user=pvark&password=pvark";
         
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -87,5 +89,11 @@ public class BodyPartBean {
         xmlOut.append("</bodypart>");
         
         return xmlOut.toString();
+    }
+    
+    public String getHtml() {
+        String html = "<option value=" + bodyPartId + ">" + name + "</option>";
+        
+        return html;
     }
 }

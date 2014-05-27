@@ -3,13 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/farshid/Dropbox/Kurser/IT4/Programvaruarkitektur_med_Java/Project/frankenstore/src/java/beans/BodyPartListBean.java</file>
             <file>file:/Users/farshid/Dropbox/Kurser/IT4/Programvaruarkitektur_med_Java/Project/frankenstore/web/frankenlist.jsp</file>
             <file>file:/Users/farshid/Dropbox/Kurser/IT4/Programvaruarkitektur_med_Java/Project/frankenstore/src/java/servlet/StoreServlet.java</file>
-            <file>file:/Users/farshid/Dropbox/Kurser/IT4/Programvaruarkitektur_med_Java/Project/frankenstore/web/frankenlist_xslt.xsl</file>
-            <file>file:/Users/farshid/Dropbox/Kurser/IT4/Programvaruarkitektur_med_Java/Project/frankenstore/src/java/beans/BodyPartBean.java</file>
-            <file>file:/Users/farshid/Dropbox/Kurser/IT4/Programvaruarkitektur_med_Java/Project/frankenstore/src/java/beans/FrankenListBean.java</file>
-            <file>file:/Users/farshid/Dropbox/Kurser/IT4/Programvaruarkitektur_med_Java/Project/frankenstore/src/java/beans/FrankenBean.java</file>
+            <file>file:/Users/farshid/Dropbox/Kurser/IT4/Programvaruarkitektur_med_Java/Project/frankenstore/src/java/beans/ShoppingCartBean.java</file>
         </group>
     </open-files>
 </project-private>

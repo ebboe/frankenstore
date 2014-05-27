@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package servlet;
+
 import beans.*;
 
 import java.io.IOException;
@@ -19,6 +19,7 @@ import javax.servlet.http.*;
  * @author Ebbe
  */
 public class StoreServlet extends HttpServlet {
+
     private static String loginPage = null;
     private static String createUserPage = null;
     private static String frankenlistPage = null;
@@ -26,34 +27,33 @@ public class StoreServlet extends HttpServlet {
     private static String jdbcURL = null;
     private BodyPartListBean bodyPartList = null;
     private FrankenListBean frankenList = null;
-        
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        
+
         loginPage = config.getInitParameter("LOGIN_USER_PAGE");
         createUserPage = config.getInitParameter("CREATE_USER_PAGE");
         frankenlistPage = config.getInitParameter("FRANKENLIST_PAGE");
         adminPage = config.getInitParameter("ADMIN_PAGE");
-        
+
         jdbcURL = config.getInitParameter("JDBC_URL");
-        
+
         try {
             frankenList = new FrankenListBean();
         } catch (Exception ex) {
             throw new ServletException(ex);
         }
-        
+
         try {
             bodyPartList = new BodyPartListBean(jdbcURL);
         } catch (Exception e) {
             throw new ServletException(e);
         }
     }
-    
-    
+
     public void destroy() {
-        
+
     }
 
     /**
@@ -67,42 +67,49 @@ public class StoreServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
         RequestDispatcher rd = null;
         ShoppingCartBean shoppingBean = getCart(request);
         session.setAttribute("jdbcURL", jdbcURL);
-        
+
         if (request.getParameter("action").equals("login")) {
             ProfileBean user = new ProfileBean(jdbcURL);
-            
+            FrankenListBean frankenList = null;
             try {
-                user.getUser((String)request.getParameter("username"));
+                frankenList = new FrankenListBean();
+            } catch (Exception ex) {
+                Logger.getLogger(StoreServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            session.setAttribute("frankenList", frankenList);
+
+            try {
+                user.getUser((String) request.getParameter("username"));
             } catch (Exception e) {
                 throw new ServletException("Error loading profile", e);
             }
+
+            session.setAttribute("shoppingCart", shoppingBean);
             session.setAttribute("profile", user);
-            
-            
+
             response.sendRedirect(frankenlistPage);
         } else if (request.getParameter("action").equals("logout")) {
-            
+
             session.removeAttribute("jdbcURL");
             session.removeAttribute("profile");
             session.removeAttribute("shoppingCart");
             session.invalidate();
-            
+
             response.sendRedirect(loginPage);
         } else if (request.getParameter("action").equals("create_user")) {
             response.sendRedirect(createUserPage);
         } else if (request.getParameter("action").equals("usercreate")) {
             ProfileBean createuser = new ProfileBean(jdbcURL);
-            
+
             createuser.setUsername(request.getParameter("user"));
             if (request.getParameter("role") == null) {
                 createuser.setRole("USER");
-            }
-            else {
+            } else {
                 createuser.setRole("ADMIN");
             }
 
@@ -111,18 +118,18 @@ public class StoreServlet extends HttpServlet {
             } catch (Exception e) {
                 throw new ServletException("Error saving user profile", e);
             }
+
             session.setAttribute("profile", createuser);
-            
+
             response.sendRedirect(loginPage);
         } else if (request.getParameter("action").equals("update_user")) {
-            
+
             ProfileBean updateuser = (ProfileBean) session.getAttribute("profile");
-            
+
             updateuser.setUsername(request.getParameter("user"));
             if (request.getParameter("role") == null) {
                 updateuser.setRole("USER");
-            }
-            else {
+            } else {
                 updateuser.setRole("ADMIN");
             }
 
@@ -131,82 +138,112 @@ public class StoreServlet extends HttpServlet {
             } catch (Exception e) {
                 throw new ServletException("Error saving user profile", e);
             }
+
             session.setAttribute("profile", updateuser);
-            
+
             response.sendRedirect(frankenlistPage);
-            
+
         } else if (request.getParameter("action").equals("add_to_cart")) {
-            
+
             int frankenid = Integer.parseInt(request.getParameter("frankenid"));
-            FrankenBean addFranken = frankenList.getFrankenBean(frankenid);
-            
+            FrankenListBean frankenlist = (FrankenListBean) session.getAttribute("frankenList");
+            if (frankenList == null) {
+                try {
+                    frankenlist = new FrankenListBean();
+                } catch (Exception ex) {
+                    Logger.getLogger(StoreServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            FrankenBean addFranken = frankenlist.getFrankenBean(frankenid);
+
             shoppingBean.addFranken(addFranken);
-            
+
             response.sendRedirect(frankenlistPage);
         } else if (request.getParameter("action").equals("remove_from_cart")) {
             int frankenid = Integer.parseInt(request.getParameter("frankenid"));
             FrankenBean removeFranken = frankenList.getFrankenBean(frankenid);
-            
+
             shoppingBean.removeFranken(removeFranken);
             response.sendRedirect(frankenlistPage);
         } else if (request.getParameter("action").equals("checkout")) {
-            
+
             ProfileBean profile = (ProfileBean) session.getAttribute("profile");
-            
+
             try {
                 profile.checkout(shoppingBean);
             } catch (Exception ex) {
                 Logger.getLogger(StoreServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            //session.removeAttribute("shoppingCart");
+            
+            shoppingBean.clear();
+            session.setAttribute("shoppingCart", shoppingBean);
             response.sendRedirect(frankenlistPage);
         } else if (request.getParameter("action").equals("create_new_franken")) {
             FrankenBean newFranken = new FrankenBean(jdbcURL);
+
+            BodyPartListBean partList = null;
+
+            try {
+                partList = new BodyPartListBean();
+            } catch (Exception ex) {
+                Logger.getLogger(StoreServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             session.setAttribute("franken", newFranken);
-            session.setAttribute("bodyPartList", bodyPartList);
-           response.sendRedirect(adminPage);
+            session.setAttribute("bodyPartList", partList);
+            response.sendRedirect(adminPage);
         } else if (request.getParameter("action").equals("add_new_part")) {
-           FrankenBean newFranken = (FrankenBean)session.getAttribute("franken");
-           String frankenName = request.getParameter("frankenName");
-           newFranken.setName(frankenName);
-           
-           int bodyPartId = Integer.parseInt(request.getParameter("bodypart"));
-           BodyPartBean bodyPart = null;
-           
+            FrankenBean newFranken = (FrankenBean) session.getAttribute("franken");
+            String frankenName = request.getParameter("frankenName");
+            newFranken.setName(frankenName);
+
+            int bodyPartId = Integer.parseInt(request.getParameter("bodypart"));
+            BodyPartBean bodyPart = null;
+
             try {
                 bodyPart = new BodyPartBean(bodyPartId);
             } catch (Exception ex) {
                 Logger.getLogger(StoreServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             newFranken.addBodyPart(bodyPart);
-           
-           session.setAttribute("bodyPartList", bodyPartList);
-           session.setAttribute("franken", newFranken);
-           response.sendRedirect(adminPage);
+
+            //session.setAttribute("bodyPartList", bodyPartList);
+            session.setAttribute("franken", newFranken);
+            response.sendRedirect(adminPage);
         } else if (request.getParameter("action").equals("save_franken")) {
-           FrankenBean franken = (FrankenBean)session.getAttribute("franken");
-           
+            FrankenBean franken = (FrankenBean) session.getAttribute("franken");
+
             try {
                 franken.save();
             } catch (Exception ex) {
                 Logger.getLogger(StoreServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-           
-           response.sendRedirect(frankenlistPage);
+            FrankenListBean frankenList = null;
+            try {
+                frankenList = new FrankenListBean();
+            } catch (Exception ex) {
+                Logger.getLogger(StoreServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            session.setAttribute("frankenList", frankenList);
+            session.removeAttribute("franken");
+            session.removeAttribute("bodyPartList");
+            response.sendRedirect(frankenlistPage);
         }
     }
-    
+
     private ShoppingCartBean getCart(HttpServletRequest request) {
         HttpSession se = request.getSession();
-        
-        ShoppingCartBean cart = (ShoppingCartBean)se.getAttribute("shoppingCart");
-        
+
+        ShoppingCartBean cart = (ShoppingCartBean) se.getAttribute("shoppingCart");
+
         if (cart == null) {
             cart = new ShoppingCartBean();
             se.setAttribute("shoppingCart", cart);
         }
-        
+
         return cart;
     }
 
